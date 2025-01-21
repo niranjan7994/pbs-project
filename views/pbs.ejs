@@ -1,0 +1,41 @@
+<% title = 'LinkMark' %>
+
+
+
+<div class="container text-center pt-5">
+    <h1 class="display-2">LinkMark</h1>
+    <h1 class="display-4">One place to add your links effectively</h1>
+    
+    <% if (!email) { %>
+        <p>Please login or sign up to use the bookmarking feature.</p>
+    <% } else { %>
+        <p>You are logged in as <%= email %>.</p>
+        
+        <!-- Bookmark Form 
+        <div class="mt-4">
+            <h2>Add Bookmark</h2>
+            <form action="/add-bookmark" method="POST">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="url">URL:</label>
+                    <input type="url" id="url" name="url" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Bookmark</button>
+            </form>
+        </div>-->
+
+        <div class="mt-4">
+            <a href="/add" class="btn btn-primary btn-lg">Add Bookmark</a>
+            <a href="/bookmarks" class="btn btn-secondary btn-lg">View Bookmarks</a>
+          </div>
+    <% } %><br>
+
+    <% if (error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= error %>
+        </div>
+      <% } %>
+</div>

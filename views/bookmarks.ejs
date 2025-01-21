@@ -1,0 +1,106 @@
+
+  <div class="container my-4">
+    <h1 class="text-center mb-4">Your Bookmarks</h1>
+
+    <!-- Search Form -->
+    <form id="search-form" class="form-inline mb-4 justify-content-center" action="javascript:void(0)">
+      <input 
+        type="text" 
+        id="search-query" 
+        class="form-control mr-2" 
+        placeholder="Search bookmarks" 
+        aria-label="Search bookmarks"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Container for displaying search results -->
+    <ul id="search-results" class="list-group mb-4" style="display:none;"></ul>
+
+    <!-- Existing list of bookmarks (if available) -->
+    <div id="bookmarks-list">
+      <% if (bookmarks.length === 0) { %>
+        <div class="alert alert-info text-center">No bookmarks available. Start by adding some bookmarks!</div>
+      <% } else { %>
+        <ul class="list-group">
+          <% bookmarks.forEach(bookmark => { %>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong><%= bookmark.title %></strong> - 
+                  <a href="<%= bookmark.url %>" target="_blank"><%= bookmark.url %></a>
+                  <br><small class="text-muted">Added on: <%= bookmark.addedAt.toLocaleString() %></small>
+                </div>
+                <div>
+                  <form 
+                    action="/edit/<%= bookmark._id %>" 
+                    method="GET" 
+                    class="d-inline"
+                  >
+                    <input type="hidden" name="id" value="<%= bookmark._id %>">
+                    <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                  </form>
+                  <form 
+                    action="/delete-bookmark" 
+                    method="POST" 
+                    class="d-inline" 
+                    onsubmit="return confirmDelete(event, '<%= bookmark.title %>')"
+                  >
+                    <input type="hidden" name="id" value="<%= bookmark._id %>">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </div>
+
+    <!-- Pagination Controls (hidden during search) -->
+    <nav id="pagination-nav" aria-label="Page navigation example" class="mt-4" style="display:block;">
+      <ul class="pagination justify-content-center">
+        <% if (pagination.totalPages > 1) { %>
+          <% if (pagination.hasPrevPage) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= pagination.prevPage %>">&laquo; Previous</a>
+            </li>
+          <% } %>
+          <% for (let page_number = 1; page_number <= pagination.totalPages; page_number++) { %>
+            <li class="page-item <%= pagination.page === page_number ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= page_number %>"><%= page_number %></a>
+            </li>
+          <% } %>
+          <% if (pagination.hasNextPage) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= pagination.nextPage %>">Next &raquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= pagination.totalPages %>">Last &raquo;</a>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+
+  <script>
+    // Function to show a confirmation dialog
+    function confirmDelete(event, title) {
+      const confirmation = confirm(`Are you sure you want to delete the bookmark titled "${title}"?`);
+      if (!confirmation) {
+        // Prevent form submission if user clicks Cancel
+        event.preventDefault();
+      }
+      return confirmation;
+    }
+  </script>
+
+<!-- Include external JavaScript file (main.js) -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/javascripts/main.js"></script>
+
+

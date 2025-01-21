@@ -1,0 +1,16 @@
+<% title = 'Edit Bookmark' %>
+
+<h1>Edit Bookmark</h1>
+
+<form action="/edit/<%= bookmark._id %>" method="POST">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" class="form-control" value="<%= bookmark.title %>" required>
+    </div>
+    <div class="form-group">
+        <label for="url">URL:</label>
+        <input type="url" id="url" name="url" class="form-control" value="<%= bookmark.url %>" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+</form>

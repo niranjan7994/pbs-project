@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">LinkMark</a>
+    <% if (!email) { %> <!-- Show these buttons only if user is not logged in -->
+        <a href="/login" class="btn btn-warning ml-auto">Login</a>
+        <a href="/signup" class="btn btn-success ml-2">Sign Up</a>
+    <% } else { %> <!-- Show logout option if user is logged in -->
+        <div class="d-flex justify-content-end align-items-center ml-auto">
+            <span class="mr-2">Welcome, <%= email %></span>
+           <!-- <a href="/add" class="btn btn-primary btn-sm mr-2">Add Bookmark</a>-->
+            <form id="logout-form" action="/logout" method="GET" onsubmit="return confirmLogout()">
+                <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+            </form>
+        </div>
+    <% } %>
+</nav>
+
+<script>
+    function confirmLogout() {
+      return confirm("Are you sure you want to log out?");
+    }
+  </script>
